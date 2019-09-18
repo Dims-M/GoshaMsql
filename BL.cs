@@ -79,7 +79,7 @@ namespace GoshaMsql
 
         }
 
-
+       //запись в файл
         public static void WrateText(string myText)
         {
             using (StreamWriter sw = new StreamWriter(logErrors, true, System.Text.Encoding.Default))
