@@ -61,9 +61,6 @@ namespace GoshaMsql
                    // File.Copy(initName, finalDir + initName);
                     File.Copy(nameOfApp, initName);
                 }
-
-
-
             }
             catch (Exception e)
             {
