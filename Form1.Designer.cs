@@ -82,6 +82,7 @@
             this.materialFlatButton1.TabIndex = 5;
             this.materialFlatButton1.Text = "Выход";
             this.materialFlatButton1.UseVisualStyleBackColor = true;
+            this.materialFlatButton1.Click += new System.EventHandler(this.MaterialFlatButton1_Click);
             // 
             // materialFlatButton2
             // 

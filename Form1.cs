@@ -26,7 +26,13 @@ namespace GoshaMsql
         private void MaterialFlatButton2_Click(object sender, EventArgs e)
         {
             //BL.FirstStart();
-            BL.MakeScreen();
+          //  BL.MakeScreen();
+            BL.Test();
+        }
+
+        private void MaterialFlatButton1_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
