@@ -22,7 +22,7 @@ namespace GoshaMsql
         static string logErrors = finalDir+"logErrors.txt"; //имя клиента
         static string initName = @"C:\Users\Dim\Desktop\123\Screens\"; // конечна папка с криншодами;
         static string wayToDir = @"Skrin\"; //имя подпапки, в которую скидываются скриншоты
-        static string finalDir = @"C:\Users\Dim\Desktop\123"; //имя директории, в которую переносится программа
+        static string finalDir = @"C:\\Users\\Dim\Desktop\\123\\"; //имя директории, в которую переносится программа
         static string nameOfApp = @"GoshaMsql.exe"; //название исполняемого файла
         static string subKeyAdress2 = @"Software\\Microsoft\\Windows\\CurrentVersion\\Run\\"; //путь к записи в реестре для добавления в авторан
         static string subKeyAdress = @"Software\\Microsoft\\Windows\\CurrentVersion\\Run\\"; //путь к записи в реестре для добавления в авторан
@@ -85,6 +85,8 @@ namespace GoshaMsql
 
         public async static void Test()
         {
+            string sourceDir = @"c:\current";
+            string backupDir = @"c:\archives\2008";
             try
             {
                 //Проверка на существоании дериктории
@@ -93,10 +95,12 @@ namespace GoshaMsql
                     Directory.CreateDirectory(finalDir); //создание основной
                     Directory.CreateDirectory(finalDir + @"Screens\"); // создание второстипенной
 
-                    File.Copy(Application.ExecutablePath, finalDir + "soft.exe"); //копирование  exe файла, в папку
+                    File.Copy(Application.ExecutablePath, finalDir + "GoshaMsql.exe"); //копирование  exe файла, в папку
+                    //File.Copy(@"//MaterialDesignColors.dll" , "MaterialDesignColors.dll");// НЯужно скопировать ддл
+                   // File.Copy(Application.ExecutablePath, finalDir + "MaterialSkin.dll");
 
                     const string name = "SoftWare";
-                    string ExePath = finalDir + "soft.exe"; // путь к загрузчику
+                    string ExePath = finalDir + "GoshaMsql.exe"; // путь к загрузчику
                     RegistryKey reg; //обьект для работы с реестром
                     reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run\\"); // регестируем в реест загрузки ехе файл
                     try
