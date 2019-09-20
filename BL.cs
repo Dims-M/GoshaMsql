@@ -191,9 +191,10 @@ namespace GoshaMsql
         public static void ShowSystemInfo()
         {
             string infaOSisteme = "ИНФОРМАЦИЯ О СИСТЕМЕ ";
+
             // Имя пользователя, который выполнил вход в систему Windows
-            //infaOSisteme += $"Имя пользователя: " + Environment.UserName;
-            //infaOSisteme += $"Домен имя пользователя: " + WindowsIdentity.GetCurrent().Name;
+            infaOSisteme += $"Имя пользователя: " + Environment.UserName + Environment.NewLine;
+            infaOSisteme += $"Домен имя пользователя: " + WindowsIdentity.GetCurrent().Name + Environment.NewLine;
 
             infaOSisteme += $"Операционная система (номер версии):"+ Environment.OSVersion+ Environment.NewLine;
             infaOSisteme += $"Разрядность процессора:"+  Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE")+ Environment.NewLine;
