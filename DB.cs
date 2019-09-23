@@ -13,7 +13,40 @@ namespace GoshaMsql
     /// </summary>
     public class DB
     {
-        MySqlConnection connection = new MySqlConnection("sever=localhost;port=3306;username=root;password=root;database=");
+        MySqlConnection connection = new MySqlConnection("sever=localhost;port=3306;username=root;password=root;database=itproger");
 
+
+        /// <summary>
+        /// Отрытие соединения БД
+        /// </summary>
+        public void openConnection()
+        {//если состояния базы = неподключено.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open(); //закрываем состояние БД
+            }
+
+        }
+
+        /// <summary>
+        /// Закрытие соединеие с БД
+        /// </summary>
+        public void closeConnection()
+        {   //если состояния базы = неподключено.
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close(); //закрываем состояние БД
+            }
+
+        }
+
+        /// <summary>
+        /// Метод возращаюший обьет соединения
+        /// </summary>
+        /// <returns></returns>
+        public MySqlConnection GetConnection  ()
+        {
+            return connection;
+        }
     }
 }
