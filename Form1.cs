@@ -1,4 +1,5 @@
 ﻿using MaterialSkin.Controls;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,9 +33,20 @@ namespace GoshaMsql
         //кнопка ОК
         private void MaterialFlatButton2_Click(object sender, EventArgs e)
         {
-            loginUser = textBoxUser.Text;
+            loginUser = textBoxUser.Text; //Сохраняем в пермеменнные данные техбокса
             passwordUser = textBoxUser.Text;
-            
+
+            DB db = new DB(); // для связи с БД
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter(); //Для работы с провайдером MySql
+
+            MySqlCommand command =  new MySqlCommand("SELECT * FROM `users` WHERE login == @uL AND pass == @uP");//команда sql
+            //Параметры и свойства MySqlCommand
+            command.Parameters.Add("@uL", MySqlDbType.VarChar).Value = loginUser; //Присваиваем через такую конструкцию параметр при запросе sql
+            command.Parameters.Add("@uP", MySqlDbType.VarChar).Value = passwordUser; //Присваиваем через такую конструкцию параметр при запросе sql
+
+            adapter.SelectCommand = command; // отправляем комаду для выполнения
+
             //BL.Test(); //Тестовой метод
         }
 
