@@ -33,21 +33,38 @@ namespace GoshaMsql
         //кнопка ОК
         private void MaterialFlatButton2_Click(object sender, EventArgs e)
         {
-            loginUser = textBoxUser.Text; //Сохраняем в пермеменнные данные техбокса
-            passwordUser = textBoxUser.Text;
+            loginUser =    textBoxUser.Text; //Сохраняем в пермеменнные данные техбокса
+            passwordUser = textBoxPassword.Text;
+
+            string tempLog = $"Событие: \t\n";
 
             DB db = new DB(); // для связи с БД
 
+            DataTable table = new DataTable(); // дата сет. кеш бд 
+
             MySqlDataAdapter adapter = new MySqlDataAdapter(); //Для работы с провайдером MySql
 
-            MySqlCommand command =  new MySqlCommand("SELECT * FROM `users` WHERE login == @uL AND pass == @uP");//команда sql
+            MySqlCommand command =  new MySqlCommand("SELECT * FROM `users` WHERE 'login' = @uL AND 'pass' = @uP", db.GetConnection());//команда sql
             //Параметры и свойства MySqlCommand
             command.Parameters.Add("@uL", MySqlDbType.VarChar).Value = loginUser; //Присваиваем через такую конструкцию параметр при запросе sql
             command.Parameters.Add("@uP", MySqlDbType.VarChar).Value = passwordUser; //Присваиваем через такую конструкцию параметр при запросе sql
 
             adapter.SelectCommand = command; // отправляем комаду для выполнения
+            adapter.Fill(table); //Обновление кеша БД
 
+            //проверка на лоичество строк в БД
+            if(table.Rows.Count > 0)
+            {
+                tempLog += $"Попытка авторизации...\t\nВ базе данных {table.Rows.Count} строк пользователей \t\n";
+                MessageBox.Show("Автаризация");
+            }
+            else
+            {
+                tempLog += $"Попытка авторизации не удалась...\t\nВ базе данных {table.Rows.Count} строк пользователей \t\n";
+                MessageBox.Show("ОШИБКА при автаризации");
+            }
             //BL.Test(); //Тестовой метод
+            BL.WrateText(tempLog);
         }
 
         //кнопка выход

@@ -177,7 +177,11 @@ namespace GoshaMsql
             catch { }
         }
 
-       //запись в файл
+        //запись в файл
+        /// <summary>
+        /// запись в текстовой файл. Журнал событий
+        /// </summary>
+        /// <param name="myText"></param>
         public static void WrateText(string myText)
         {
             using (StreamWriter sw = new StreamWriter(logErrors, true, System.Text.Encoding.Default))
@@ -216,5 +220,6 @@ namespace GoshaMsql
             //}
             WrateText(infaOSisteme);
         }
+
     }
 }

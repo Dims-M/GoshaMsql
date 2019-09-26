@@ -13,7 +13,7 @@ namespace GoshaMsql
     /// </summary>
     public class DB
     {
-        MySqlConnection connection = new MySqlConnection("sever=localhost;port=3306;username=root;password=root;database=itproger");
+        MySqlConnection connection = new MySqlConnection("server=localhost;port=3306;username=root;password=root;database=itproger");
 
 
         /// <summary>
