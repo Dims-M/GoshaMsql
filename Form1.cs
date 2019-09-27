@@ -44,10 +44,12 @@ namespace GoshaMsql
 
             MySqlDataAdapter adapter = new MySqlDataAdapter(); //Для работы с провайдером MySql
 
-            MySqlCommand command =  new MySqlCommand("SELECT * FROM `users` WHERE 'login' = @uL AND 'pass' = @uP", db.GetConnection());//команда sql
+           // MySqlCommand command =  new MySqlCommand("SELECT * FROM `users` WHERE 'login' = @uL OR 'pass' = @uP", db.GetConnection());//команда sql
+            MySqlCommand command =  new MySqlCommand("SELECT * FROM `users` WHERE 'login' = 'loginUser' OR 'pass' = 'passwordUser'", db.GetConnection());//команда sql
+           // MySqlCommand command =  new MySqlCommand("SELECT * FROM `users` WHERE  `login` = 'admin' OR `pass`='123'", db.GetConnection());//команда sql
             //Параметры и свойства MySqlCommand
-            command.Parameters.Add("@uL", MySqlDbType.VarChar).Value = loginUser; //Присваиваем через такую конструкцию параметр при запросе sql
-            command.Parameters.Add("@uP", MySqlDbType.VarChar).Value = passwordUser; //Присваиваем через такую конструкцию параметр при запросе sql
+             //command.Parameters.Add("@uL", MySqlDbType.VarChar).Value = loginUser; //Присваиваем через такую конструкцию параметр при запросе sql
+             //command.Parameters.Add("@uP", MySqlDbType.VarChar).Value = passwordUser; //Присваиваем через такую конструкцию параметр при запросе sql
 
             adapter.SelectCommand = command; // отправляем комаду для выполнения
             adapter.Fill(table); //Обновление кеша БД
