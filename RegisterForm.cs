@@ -19,7 +19,10 @@ namespace GoshaMsql
             textBoxUser.Text = "Введите имя";
             passUserFild.Text = "Пароль";
             userRegEmail.Text = "Введите почту";
-         }
+            textBoxUser.ForeColor = Color.Gray;
+            passUserFild.ForeColor = Color.Gray;
+            userRegEmail.ForeColor = Color.Gray;
+        }
 
         //форма
         private void RegisterForm_Load(object sender, EventArgs e)
@@ -86,6 +89,35 @@ namespace GoshaMsql
                 userRegEmail.Text = "";
             }
              
+        }
+
+        //Обработчик события. Сработывает при выходе из формы вв ода
+        private void TextBoxUser_Leave(object sender, EventArgs e)
+        {
+            if (textBoxUser.Text == "")
+            {
+                textBoxUser.Text = "Введите имя";
+                textBoxUser.ForeColor = Color.Red;
+            }
+        }
+
+        //Обработчик события.Сработывает при выходе из формы при вводе пароля.
+        private void PassUserFild_Leave(object sender, EventArgs e)
+        {
+            if (passUserFild.Text == "")
+            {
+                passUserFild.Text = "Пароль";
+                passUserFild.ForeColor = Color.Red;
+            }
+        }
+
+        private void UserRegEmail_Leave(object sender, EventArgs e)
+        {
+            if (userRegEmail.Text == "")
+            {
+                userRegEmail.Text = "Введите почту";
+                userRegEmail.ForeColor = Color.Red;
+            }
         }
     }
 }

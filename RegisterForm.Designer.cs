@@ -118,6 +118,7 @@
             this.textBoxUser.Size = new System.Drawing.Size(168, 22);
             this.textBoxUser.TabIndex = 6;
             this.textBoxUser.Enter += new System.EventHandler(this.TextBoxUser_Enter);
+            this.textBoxUser.Leave += new System.EventHandler(this.TextBoxUser_Leave);
             // 
             // passUserFild
             // 
@@ -127,6 +128,7 @@
             this.passUserFild.Size = new System.Drawing.Size(168, 22);
             this.passUserFild.TabIndex = 7;
             this.passUserFild.Enter += new System.EventHandler(this.PassUserFild_Enter);
+            this.passUserFild.Leave += new System.EventHandler(this.PassUserFild_Leave);
             // 
             // userRegEmail
             // 
@@ -134,8 +136,8 @@
             this.userRegEmail.Name = "userRegEmail";
             this.userRegEmail.Size = new System.Drawing.Size(168, 22);
             this.userRegEmail.TabIndex = 8;
-          //  this.userRegEmail.TextChanged += new System.EventHandler(this.UserRegEmail_TextChanged);
             this.userRegEmail.Enter += new System.EventHandler(this.UserRegEmail_Enter);
+            this.userRegEmail.Leave += new System.EventHandler(this.UserRegEmail_Leave);
             // 
             // clearFildGerForm
             // 
