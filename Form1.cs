@@ -80,5 +80,16 @@ namespace GoshaMsql
         {
 
         }
+
+        /// <summary>
+        /// Кнопка зарегестрироватся
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MaterialFlatButton3_Click(object sender, EventArgs e)
+        {
+            var RegForm = new RegisterForm();
+            RegForm.Show();
+        }
     }
 }
