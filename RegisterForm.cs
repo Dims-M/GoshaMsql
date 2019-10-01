@@ -44,44 +44,58 @@ namespace GoshaMsql
         {
             string log = "";
 
-           // try
-          //  {
-
-             
-            db = new DB(); //контекст для работы с БД
-            //MySqlCommand command = new MySqlCommand("INSERT INTO 'users' (`id`,'login', 'pass', 'name','email', 'coment', 'AddDateTime',`DateTimeExit`) VALUES(NULL,@login, @pass, @name, @email, @coment, '' )", db.GetConnection()); // для работы с запросами БД
-            MySqlCommand command = new MySqlCommand($"INSERT INTO `users` (`login`, `pass`, `name`,`email`, `coment`, `AddDateTime`,`DateTimeExit`) VALUES('{textBoxUser.Text}', '{passUserFild.Text}', {NamTtextBox.Text}, '{userRegEmail.Text}','{ComentReTtextBox.Text}','','')", db.GetConnection()); // для работы с запросами БД
-         // MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`id`, `login`, `pass`, `name`, `email`, `coment`, `AddDateTime`, `DateTimeExit`) VALUES(NULL, 'пробный', '12345', 'тест', 'fgeg@.mail.ru', 'тестовой', '2019-10-01 00:00:00', '')",db.GetConnection());
-
-            //параметры скл запроса
-            //command.Parameters.Add("@login",MySqlDbType.VarChar).Value = textBoxUser.Text; // присваеваем значение из тек поля вводаа логина
-            //command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = passUserFild.Text;
-            //command.Parameters.Add("@email", MySqlDbType.VarChar).Value = userRegEmail.Text;
-            //command.Parameters.Add("@name", MySqlDbType.VarChar).Value = NamTtextBox.Text;
-            //command.Parameters.Add("@coment", MySqlDbType.VarChar).Value = ComentReTtextBox.Text;
-            //command.Parameters.Add("@AddDateTime", MySqlDbType.DateTime).Value = DateTime.Now;
-
-            db.openConnection(); // открытие соединения
-
-            if (command.ExecuteNonQuery() == 1) // выполняет результат запроса скл. С возратом значения. Если 1 то успешно
+            if (textBoxUser.Text == "Введите логин" || NamTtextBox.Text == "Введите Имя")
             {
-                MessageBox.Show("Пользователь добавлен.");
-                log += $"{DateTime.Now.ToString()} - Пользователь добавлен! {NamTtextBox.Text}\t\n";
+                log += "Обязательные параметры Не заполнены \t\n";
+                MessageBox.Show("Обязательные параметры Не заполнены \t\n");
                 BL.WrateText(log);
+                return;
+            }
+            else
+            {
+                //Логика работы с БД
+                try
+                {
+
+                    db = new DB(); //контекст для работы с БД
+                                   //MySqlCommand command = new MySqlCommand("INSERT INTO 'users' (`id`,'login', 'pass', 'name','email', 'coment', 'AddDateTime',`DateTimeExit`) VALUES(NULL,@login, @pass, @name, @email, @coment, '' )", db.GetConnection()); // для работы с запросами БД
+                    MySqlCommand command = new MySqlCommand($"INSERT INTO `users` (`login`, `pass`, `name`,`email`, `coment`, `AddDateTime`,`DateTimeExit`) VALUES('{textBoxUser.Text}', '{passUserFild.Text}', {NamTtextBox.Text}, '{userRegEmail.Text}','{ComentReTtextBox.Text}','','')", db.GetConnection()); // для работы с запросами БД
+                                                                                                                                                                                                                                                                                                                  // MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`id`, `login`, `pass`, `name`, `email`, `coment`, `AddDateTime`, `DateTimeExit`) VALUES(NULL, 'пробный', '12345', 'тест', 'fgeg@.mail.ru', 'тестовой', '2019-10-01 00:00:00', '')",db.GetConnection());
+
+                    //параметры скл запроса
+                    //command.Parameters.Add("@login",MySqlDbType.VarChar).Value = textBoxUser.Text; // присваеваем значение из тек поля вводаа логина
+                    //command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = passUserFild.Text;
+                    //command.Parameters.Add("@email", MySqlDbType.VarChar).Value = userRegEmail.Text;
+                    //command.Parameters.Add("@name", MySqlDbType.VarChar).Value = NamTtextBox.Text;
+                    //command.Parameters.Add("@coment", MySqlDbType.VarChar).Value = ComentReTtextBox.Text;
+                    //command.Parameters.Add("@AddDateTime", MySqlDbType.DateTime).Value = DateTime.Now;
+
+                    db.openConnection(); // открытие соединения
+
+                    if (command.ExecuteNonQuery() == 1) // выполняет результат запроса скл. С возратом значения. Если 1 то успешно
+                    {
+                        MessageBox.Show("Пользователь добавлен.");
+                        log += $"{DateTime.Now.ToString()} - Пользователь добавлен! {textBoxUser.Text}\t\n";
+                        BL.WrateText(log);
+                    }
+
+                    else
+                        MessageBox.Show("Ошибка при добавлении пользователя");
+
+                }
+
+                catch (Exception ex)
+                {
+                    log += $"ОШИБКА при добавлении пользователя!! \t\n{ex}";
+                    BL.WrateText(log);
+                }
+
+                db.closeConnection();// закрытие соединения
+
             }
 
-            else 
-                MessageBox.Show("Ошибка при добавлении пользователя");
+            
 
-           // }
-
-            //catch (Exception ex)
-            //{
-            //    log += $"ОШИБКА при добавлении пользователя!! \t\n{ex}";
-            //    BL.WrateText(log);
-            //}
-        
-            db.closeConnection();// закрытие соединения
         }
 
         /// <summary>
@@ -92,6 +106,15 @@ namespace GoshaMsql
         private void ExitRegButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+        /// <summary>
+        /// Проверяем. есть ли данны пользователей в БД
+        /// </summary>
+        /// <returns></returns>
+       public Boolean CheckUser()
+        {
+
+            return true;
         }
 
         //очистить поля регистрции
