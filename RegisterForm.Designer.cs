@@ -220,6 +220,7 @@
             this.Controls.Add(this.materialLabel2);
             this.Controls.Add(this.materialLabel1);
             this.Name = "RegisterForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "РЕГИСТРАЦИЯ НОВОГО ПОЛЬЗОВАТЕЛЯ";
             this.Load += new System.EventHandler(this.RegisterForm_Load);
             this.Enter += new System.EventHandler(this.RegisterForm_Enter);

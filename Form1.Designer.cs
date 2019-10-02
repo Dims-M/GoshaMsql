@@ -91,14 +91,14 @@
             this.materialFlatButton2.AutoSize = true;
             this.materialFlatButton2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialFlatButton2.Depth = 0;
-            this.materialFlatButton2.Location = new System.Drawing.Point(176, 232);
+            this.materialFlatButton2.Location = new System.Drawing.Point(96, 221);
             this.materialFlatButton2.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialFlatButton2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialFlatButton2.Name = "materialFlatButton2";
             this.materialFlatButton2.Primary = false;
-            this.materialFlatButton2.Size = new System.Drawing.Size(36, 36);
+            this.materialFlatButton2.Size = new System.Drawing.Size(200, 36);
             this.materialFlatButton2.TabIndex = 6;
-            this.materialFlatButton2.Text = "ОК";
+            this.materialFlatButton2.Text = "Войти в лк. кабинет";
             this.materialFlatButton2.UseVisualStyleBackColor = true;
             this.materialFlatButton2.Click += new System.EventHandler(this.MaterialFlatButton2_Click);
             // 
@@ -131,6 +131,7 @@
             this.Controls.Add(this.textBoxPassword);
             this.Controls.Add(this.textBoxUser);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);

@@ -60,6 +60,9 @@ namespace GoshaMsql
             {
                 tempLog += $"Попытка авторизации...\t\nВ базе данных {table.Rows.Count} строк пользователей \t\n";
                 MessageBox.Show("Автаризация");
+                this.Hide(); // скрываем текущую форму
+                MainForm mainForm = new MainForm();
+                mainForm.Show();
             }
             else
             {

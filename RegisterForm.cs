@@ -44,22 +44,27 @@ namespace GoshaMsql
         {
             string log = "";
 
+            //проверка на заполненнность элементов
             if (textBoxUser.Text == "Введите логин" || NamTtextBox.Text == "Введите Имя")
             {
                 log += "Обязательные параметры Не заполнены \t\n";
                 MessageBox.Show("Обязательные параметры Не заполнены \t\n");
                 BL.WrateText(log);
-                return;
+                return;// выход из метода.
             }
-            else
+
+            if (IsUserExis())
             {
+                return; // выход из метода.
+            }
+
                 //Логика работы с БД
                 try
                 {
-
+                    string mydt = DateTime.Now.ToString();
                     db = new DB(); //контекст для работы с БД
-                                   //MySqlCommand command = new MySqlCommand("INSERT INTO 'users' (`id`,'login', 'pass', 'name','email', 'coment', 'AddDateTime',`DateTimeExit`) VALUES(NULL,@login, @pass, @name, @email, @coment, '' )", db.GetConnection()); // для работы с запросами БД
-                    MySqlCommand command = new MySqlCommand($"INSERT INTO `users` (`login`, `pass`, `name`,`email`, `coment`, `AddDateTime`,`DateTimeExit`) VALUES('{textBoxUser.Text}', '{passUserFild.Text}', {NamTtextBox.Text}, '{userRegEmail.Text}','{ComentReTtextBox.Text}','','')", db.GetConnection()); // для работы с запросами БД
+                    //MySqlCommand command = new MySqlCommand("INSERT INTO 'users' (`id`,'login', 'pass', 'name','email', 'coment', 'AddDateTime',`DateTimeExit`) VALUES(NULL,@login, @pass, @name, @email, @coment, '' )", db.GetConnection()); // для работы с запросами БД
+                    MySqlCommand command = new MySqlCommand($"INSERT INTO `users` (`login`, `pass`, `name`,`email`, `coment`, `AddDateTime`,`DateTimeExit`) VALUES('{textBoxUser.Text}', '{passUserFild.Text}', {NamTtextBox.Text}, '{userRegEmail.Text}','{ComentReTtextBox.Text}','{mydt}','')", db.GetConnection()); // для работы с запросами БД
                                                                                                                                                                                                                                                                                                                   // MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`id`, `login`, `pass`, `name`, `email`, `coment`, `AddDateTime`, `DateTimeExit`) VALUES(NULL, 'пробный', '12345', 'тест', 'fgeg@.mail.ru', 'тестовой', '2019-10-01 00:00:00', '')",db.GetConnection());
 
                     //параметры скл запроса
@@ -92,10 +97,6 @@ namespace GoshaMsql
 
                 db.closeConnection();// закрытие соединения
 
-            }
-
-            
-
         }
 
         /// <summary>
@@ -107,13 +108,42 @@ namespace GoshaMsql
         {
             Close();
         }
+      
         /// <summary>
         /// Проверяем. есть ли данны пользователей в БД
         /// </summary>
         /// <returns></returns>
-       public Boolean CheckUser()
+       public Boolean IsUserExis()
         {
+            string tempLog =$"{DateTime.Now}";
+            db = new DB();  // соединение с бд
 
+            DataTable table = new DataTable(); // дата сет. кеш бд 
+            MySqlDataAdapter adapter = new MySqlDataAdapter(); //Для работы с провайдером MySql
+
+            MySqlCommand command = new MySqlCommand($"SELECT * FROM `users` WHERE  `login` = @uL", db.GetConnection());//команда sql
+
+            //Параметры и свойства MySqlCommand
+            command.Parameters.Add("@uL", MySqlDbType.VarChar).Value = textBoxUser.Text; //Присваиваем через такую конструкцию параметр при запросе sql
+           
+            adapter.SelectCommand = command; // отправляем комаду для выполнения
+            adapter.Fill(table); //Обновление кеша БД
+
+            //проверка на лоичество строк в БД
+            if (table.Rows.Count > 0)
+            {
+                tempLog += $"Попытка авторизации...\t\nВ в тукущей базе данных  уже присуствует такой логин\t\n {textBoxUser.Text}\t\n  Cтрок пользователей{table.Rows.Count} \t\n";
+                MessageBox.Show("Автаризация не удалась\t\nУже присуствует такой логин\t\nИспользуейте другое имя ");
+                return true;
+            }
+            else
+            {
+                tempLog += $"Попытка авторизации ...\t\nВ базе данных нет зарегестированного пользователя {textBoxUser.Text}\t\n Cтрок пользователей{table.Rows.Count}\t\n";
+                return false;
+                // MessageBox.Show("ОШИБКА при автаризации");
+            }
+            //BL.Test(); //Тестовой метод
+            BL.WrateText(tempLog);
             return true;
         }
 
