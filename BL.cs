@@ -18,7 +18,7 @@ namespace GoshaMsql
     /// <summary>
     /// Класс со всякой  логикой
     /// </summary>
-   public   class BL
+   public static class BL
     {
         static string userName = "Клиент"; //имя клиента
         static string logErrors = finalDir+"logErrors.txt"; //имя клиента

@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -97,10 +98,19 @@ namespace GoshaMsql
 
         private void MaterialFlatButton4_Click(object sender, EventArgs e)
         {
+             
+
+            string tempPath = @"elevate\1.bat";
             JobProgram jobProgram = new JobProgram();
-            //  jobProgram.testStatrProgramm(); // запуск нарямую 
-            // jobProgram.StartCdm();  //запуск через командую строку
-            jobProgram.tesT();  //запуск через командую строку
+             jobProgram.testStatrProgramm(tempPath); 
+             // запуск нарямую 
+             // jobProgram.StartCdm();  //запуск через командую строку
+             //jobProgram.tesT();  //запуск через командую строку
+
+            // создаем новый поток
+           // Thread myThread = new Thread(new ThreadStart(jobProgram.testStatrProgramm(tempPath)));
+
+           // myThread.Start(); // запускаем поток
         }
     }
 }
