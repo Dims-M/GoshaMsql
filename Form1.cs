@@ -98,7 +98,9 @@ namespace GoshaMsql
         private void MaterialFlatButton4_Click(object sender, EventArgs e)
         {
             JobProgram jobProgram = new JobProgram();
-            jobProgram.testStatrProgramm();
+            //  jobProgram.testStatrProgramm(); // запуск нарямую 
+            // jobProgram.StartCdm();  //запуск через командую строку
+            jobProgram.tesT();  //запуск через командую строку
         }
     }
 }

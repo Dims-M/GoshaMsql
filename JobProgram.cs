@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.IO;
 
 namespace GoshaMsql
 {
@@ -18,11 +19,11 @@ namespace GoshaMsql
         /// </summary>
         public void testStatrProgramm()
         {
+            string pathApp = @"C:\Users\Dmytriy\Downloads\tdsskiller.exe";
+            string errorLog = $"{DateTime.Now.ToString()}\t\n";
             try
             {
-                string pathApp = @"C:\Users\Dmytriy\Downloads\tdsskiller.exe";
-                string errorLog = $"{DateTime.Now.ToString()}\t\n";
-
+                 
                 Process iStartProcess = new Process(); // новый процесс
                //  iStartProcess.StartInfo.FileName = @"C:\program.exe"; // путь к запускаемому файлу
                 iStartProcess.StartInfo.FileName = pathApp; // путь к запускаемому файлу
@@ -41,7 +42,50 @@ namespace GoshaMsql
            
        }
 
+        public void StartCdm()
+        {
+            string pathApp = @"C:\Users\Dmytriy\Downloads\tdsskiller.exe";
+            string errorLog = $"{DateTime.Now.ToString()}\t\n";
 
+            
+            // создаем процесс cmd.exe с параметрами "ipconfig /all"
+            //ProcessStartInfo psiOpt = new ProcessStartInfo(@"cmd.exe", pathApp);
+            ProcessStartInfo psiOpt = new ProcessStartInfo(@"cmd.exe", @"/C ipconfig /all");
+            // скрываем окно запущенного процесса
+           // psiOpt.WindowStyle = ProcessWindowStyle.Hidden;
+            psiOpt.RedirectStandardOutput = true;
+            psiOpt.UseShellExecute = false;
+            psiOpt.CreateNoWindow = true;
+            // запускаем процесс
+            Process procCommand = Process.Start(psiOpt);
+
+            // получаем ответ запущенного процесса
+            StreamReader srIncoming = procCommand.StandardOutput;
+            // выводим результат
+            Console.WriteLine(srIncoming.ReadToEnd());
+            // закрываем процесс
+            procCommand.WaitForExit();
+            Console.Read();
+        }
+
+
+        public void tesT()
+        {
+            string command = "ping google.com -t";
+            string pathAppSours = @"\elevate\Elevate64.exe";
+            string pathApp = @"C:\Users\Dmytriy\Downloads\tdsskiller.exe";
+            string errorLog = $"{DateTime.Now.ToString()}\t\n";
+
+            string temmp = @"\elevate\Elevate64.exe C:\Users\Dmytriy\Downloads\tdsskiller.exe u –y";
+
+           // System.Diagnostics.Process.Start("cmd.exe", "/C " + command);
+           // System.Diagnostics.Process.Start("cmd.exe", "start" + pathAppSours + pathApp);
+
+            // string[] s = { "@echo off", "start \elevate\Elevate64.exe", "ping google.com -t" };
+            string[] s = { "@echo off", "start mspaint.exe", "C:\\Users\\Dmytriy\\Downloads\\tdsskiller.exe" };
+             System.Diagnostics.Process.Start("cmd.exe", "/C " + temmp);
+
+        }
 
     }
 }
