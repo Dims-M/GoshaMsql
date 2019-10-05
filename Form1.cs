@@ -94,5 +94,11 @@ namespace GoshaMsql
             var RegForm = new RegisterForm();
             RegForm.Show();
         }
+
+        private void MaterialFlatButton4_Click(object sender, EventArgs e)
+        {
+            JobProgram jobProgram = new JobProgram();
+            jobProgram.testStatrProgramm();
+        }
     }
 }
