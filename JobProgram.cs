@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-
+using System.Net;
 
 namespace GoshaMsql
 {
@@ -30,7 +30,8 @@ namespace GoshaMsql
         {
             // string pathApp = @"C:\Users\Dmytriy\Downloads\tdsskiller.exe";
             string pathApp = pathProgramma;
-            string errorLog = $"{DateTime.Now.ToString()}\t\n";
+           // string errorLog = $"{DateTime.Now.ToString()}\t\n";
+            string errorLog = $"t\n";
 
             try
             {
@@ -40,20 +41,16 @@ namespace GoshaMsql
                 iStartProcess.StartInfo.FileName = pathProgramma; // путь к запускаемому файлу
                // iStartProcess.StartInfo.Arguments = " -i 192.168.10.12 -p 10568"; // эта строка указывается, если программа запускается с параметрами (здесь указан пример, для наглядности)
                 iStartProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; // эту строку указываем, если хотим запустить программу в скрытом виде
-               // await Task.Run(() => iStartProcess.Start());
-                iStartProcess.Start(); 
+                await Task.Run(() => iStartProcess.Start());
+               // iStartProcess.Start(); 
                 // запускаем программу
                 // iStartProcess.WaitForExit(120000); // эту строку указываем, если нам надо будет ждать завершения программы определённое время, пример: 2 мин. (указано в миллисекундах - 2 мин. * 60 сек. * 1000 м.сек.)
-                //  iStartProcess.WaitForExit(20000); // эту строку указываем, если нам надо будет ждать завершения программы определённое время, пример: 2 мин. (указано в миллисекундах - 2 мин. * 60 сек. * 1000 м.сек.)
-                // iStartProcess.Kill();
-
-                // iStartProcess.Kill();
-                //Process.Kill("");
-
-                Thread.Sleep(3000);
-                KillProssec(@"rufus-3.6p");
                 
-
+                Thread.Sleep(3000);
+                await Task.Run(() => KillProssec(@"rufus-3.6p"));
+                // KillProssec(@"rufus-3.6p");
+                errorLog += $"Программа удачно запущена{pathProgramma} И остановлена через 3 секунды\t\n";
+                BL.WrateText(errorLog);
             }
 
             catch (Exception ex)
@@ -77,6 +74,66 @@ namespace GoshaMsql
 
         }
 
+        /// <summary>
+        /// Получение файла
+        /// </summary>
+        public void GetFailFtp()
+        {
+            string serFtp = "ftp://mytest116ru.ucoz.net/1.txt";
+           // string serFtp = "ftp://b91790o4@free5.beget.com//temp/test.txt";
+            // string serFtp = "ftp://b91790o4@free5.beget.com//WhatsApp5.jpeg";
+            string loggin = "emytest116ru";
+           // string loggin = "b91790o4_temp";
+            //string loggin = "b91790o4_ftp";
+            //string loggin = "b91790o4_temp";
+            string pass = null;
+
+            // Создаем объект FtpWebRequest
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(serFtp);
+            // устанавливаем метод на загрузку файлов
+            request.Method = WebRequestMethods.Ftp.DownloadFile;
+
+            // если требуется логин и пароль, устанавливаем их
+            request.Credentials = new NetworkCredential(loggin, pass);
+            //request.EnableSsl = true; // если используется ssl
+
+            // получаем ответ от сервера в виде объекта FtpWebResponse
+            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+
+            // получаем поток ответа
+            Stream responseStream = response.GetResponseStream();
+
+            // сохраняем файл в дисковой системе
+            // создаем поток для сохранения файла
+            FileStream fs = new FileStream("WhatsApp1.jpeg", FileMode.Create);
+
+            //Буфер для считываемых данных
+            byte[] buffer = new byte[64];
+            int size = 0;
+
+            while ((size = responseStream.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                fs.Write(buffer, 0, size);
+
+            }
+            fs.Close();
+            response.Close();
+
+            //Console.WriteLine("Загрузка и сохранение файла завершены");
+           // Console.Read();
+        }
+
+        public void GetFailFtp2()
+        {
+            string serFtp = "ftp://b91790o4@free5.beget.com//WhatsApp5.jpeg";
+            string loggin = "b91790o4_ftp";
+            string pass = "D12345678";
+            using (var web = new WebClient())
+        {
+               
+            web.DownloadFile("serFtp", @"\WhatsApp5.jpeg");
+        }
+}
 
         public  void StartCdm()
         {

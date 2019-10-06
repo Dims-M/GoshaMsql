@@ -102,15 +102,13 @@ namespace GoshaMsql
 
             string tempPath = @"elevate\1.bat";
             JobProgram jobProgram = new JobProgram();
-             jobProgram.testStatrProgramm(tempPath); 
-             // запуск нарямую 
-             // jobProgram.StartCdm();  //запуск через командую строку
-             //jobProgram.tesT();  //запуск через командую строку
 
-            // создаем новый поток
-           // Thread myThread = new Thread(new ThreadStart(jobProgram.testStatrProgramm(tempPath)));
+             //jobProgram.testStatrProgramm(tempPath);  // запуск программы. С автомачическим звакрытием через n секунд
+             jobProgram.GetFailFtp(); // получение данных с фтп
+           // jobProgram.GetFailFtp2();
 
-           // myThread.Start(); // запускаем поток
+
+
         }
     }
 }
