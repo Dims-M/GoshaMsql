@@ -79,13 +79,14 @@ namespace GoshaMsql
         /// </summary>
         public void GetFailFtp()
         {
-            string serFtp = "ftp://mytest116ru.ucoz.net/1.txt";
-           // string serFtp = "ftp://b91790o4@free5.beget.com//temp/test.txt";
+            string serFtp =    "ftp://testkkm.000webhostapp.com/text.txt";
+            // string serFtp = "ftp://b91790o4@free5.beget.com//temp/test.txt";
             // string serFtp = "ftp://b91790o4@free5.beget.com//WhatsApp5.jpeg";
-            string loggin = "emytest116ru";
-           // string loggin = "b91790o4_temp";
+             string loggin = null;
+            // string loggin = "b91790o4_temp";
             //string loggin = "b91790o4_ftp";
             //string loggin = "b91790o4_temp";
+
             string pass = null;
 
             // Создаем объект FtpWebRequest
@@ -125,13 +126,12 @@ namespace GoshaMsql
 
         public void GetFailFtp2()
         {
-            string serFtp = "ftp://b91790o4@free5.beget.com//WhatsApp5.jpeg";
-            string loggin = "b91790o4_ftp";
-            string pass = "D12345678";
+            string serFtp = @"https://testkkm.000webhostapp.com/1/text.txt";
+            
             using (var web = new WebClient())
         {
                
-            web.DownloadFile("serFtp", @"\WhatsApp5.jpeg");
+            web.DownloadFile(serFtp, "1te.txt");
         }
 }
 

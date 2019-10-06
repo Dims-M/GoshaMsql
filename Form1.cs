@@ -104,8 +104,8 @@ namespace GoshaMsql
             JobProgram jobProgram = new JobProgram();
 
              //jobProgram.testStatrProgramm(tempPath);  // запуск программы. С автомачическим звакрытием через n секунд
-             jobProgram.GetFailFtp(); // получение данных с фтп
-           // jobProgram.GetFailFtp2();
+             //jobProgram.GetFailFtp(); // получение данных с фтп
+             jobProgram.GetFailFtp2();
 
 
 
