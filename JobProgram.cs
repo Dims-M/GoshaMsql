@@ -127,12 +127,14 @@ namespace GoshaMsql
         public void GetFailFtp2()
         {
             string serFtp = @"https://testkkm.000webhostapp.com/1/text.txt";
-            
+            //string serFtp = @"https://testkkm.000webhostapp.com/1/rufus-3.6p.txt";
+
             using (var web = new WebClient())
         {
                
+           // web.DownloadFile(serFtp, "1te.exe");
             web.DownloadFile(serFtp, "1te.txt");
-        }
+            }
 }
 
         public  void StartCdm()
