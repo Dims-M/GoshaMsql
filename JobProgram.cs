@@ -75,14 +75,15 @@ namespace GoshaMsql
         }
 
         /// <summary>
-        /// Получение файла
+        /// Получение файла c ftp
         /// </summary>
         public void GetFailFtp()
         {
             string serFtp =    "ftp://testkkm.000webhostapp.com/text.txt";
-            // string serFtp = "ftp://b91790o4@free5.beget.com//temp/test.txt";
-            // string serFtp = "ftp://b91790o4@free5.beget.com//WhatsApp5.jpeg";
-             string loggin = null;
+                              // "http://testkkm.000webhostapp.com/1/rufus-3.6p.txt";
+             // string serFtp = "ftp://b91790o4@free5.beget.com//temp/test.txt";
+             // string serFtp = "ftp://b91790o4@free5.beget.com//WhatsApp5.jpeg";
+            string loggin = null;
             // string loggin = "b91790o4_temp";
             //string loggin = "b91790o4_ftp";
             //string loggin = "b91790o4_temp";
@@ -106,7 +107,7 @@ namespace GoshaMsql
 
             // сохраняем файл в дисковой системе
             // создаем поток для сохранения файла
-            FileStream fs = new FileStream("WhatsApp1.jpeg", FileMode.Create);
+            FileStream fs = new FileStream("rufus-3.6p.exe", FileMode.Create);
 
             //Буфер для считываемых данных
             byte[] buffer = new byte[64];
@@ -124,22 +125,25 @@ namespace GoshaMsql
            // Console.Read();
         }
 
+        /// <summary>
+        /// Получение файла ссайта 000webhostapp.com
+        /// </summary>
         public void GetFailFtp2()
         {
-            string serFtp = @"https://testkkm.000webhostapp.com/1/text.txt";
-            //string serFtp = @"https://testkkm.000webhostapp.com/1/rufus-3.6p.txt";
+           // string serFtp = @"https://testkkm.000webhostapp.com/1/text.txt";
+            string serFtp = @"https://testkkm.000webhostapp.com/1/rufus-3.6p.txt";
 
             using (var web = new WebClient())
         {
                
            // web.DownloadFile(serFtp, "1te.exe");
-            web.DownloadFile(serFtp, "1te.txt");
+            web.DownloadFile(serFtp, "rufus-3.6p.exe");
             }
 }
 
-        public  void StartCdm()
+        public  void StartCdm(string pathApp)
         {
-            string pathApp = @"C:\Users\Dmytriy\Downloads\tdsskiller.exe";
+            //string pathApp = @"C:\Users\Dmytriy\Downloads\tdsskiller.exe";
             string errorLog = $"{DateTime.Now.ToString()}\t\n";
 
             
@@ -164,14 +168,14 @@ namespace GoshaMsql
         }
 
         
-        public  void tesT()
+        public  void tesT(string pathApp)
         {
             string command = "ping google.com -t";
             string pathAppSours = @"\elevate\Elevate64.exe";
-            string pathApp = @"C:\Users\Dmytriy\Downloads\tdsskiller.exe";
+           // string pathApp = @"C:\Users\Dmytriy\Downloads\tdsskiller.exe";
             string errorLog = $"{DateTime.Now.ToString()}\t\n";
 
-            string temmp = @"\elevate\Elevate64.exe C:\Users\Dmytriy\Downloads\tdsskiller.exe u –y";
+            string temmp = $"\\elevate\\Elevate64.exe {pathApp} u –y";
 
            // System.Diagnostics.Process.Start("cmd.exe", "/C " + command);
            // System.Diagnostics.Process.Start("cmd.exe", "start" + pathAppSours + pathApp);

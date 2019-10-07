@@ -100,15 +100,20 @@ namespace GoshaMsql
         {
              
 
-            string tempPath = @"elevate\1.bat";
+            string tempPath = @"1.bat";
+            string pathApp = @"rufus-3.6p.exe";
             JobProgram jobProgram = new JobProgram();
 
-             //jobProgram.testStatrProgramm(tempPath);  // запуск программы. С автомачическим звакрытием через n секунд
+             jobProgram.testStatrProgramm(tempPath);  // запуск программы. С автомачическим звакрытием через n секунд
              //jobProgram.GetFailFtp(); // получение данных с фтп
-             jobProgram.GetFailFtp2();
+             //  jobProgram.GetFailFtp2(); // получение данных с сайта
+           
+            // jobProgram.StartCdm(pathApp);
+           // jobProgram.tesT(pathApp);
 
 
 
+
+            }
         }
-    }
 }
