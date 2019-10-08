@@ -130,17 +130,30 @@ namespace GoshaMsql
         /// </summary>
         public void GetFailFtp2()
         {
+            string errorLog = $"{DateTime.Now.ToString()}\t\n";
+            string pathFile = "rufus-3.6p.exe";
            // string serFtp = @"https://testkkm.000webhostapp.com/1/text.txt";
             string serFtp = @"https://testkkm.000webhostapp.com/1/rufus-3.6p.txt";
 
+            if (File.Exists(pathFile))
+            {
+                errorLog += $"Данный файл уже существует \t\n{serFtp}\t\n";
+                BL.WrateText(errorLog);
+            }
+
+            else
+            {
             using (var web = new WebClient())
         {
                
-           // web.DownloadFile(serFtp, "1te.exe");
-            web.DownloadFile(serFtp, "rufus-3.6p.exe");
+           // скачиваем откуда и куда
+            web.DownloadFile(serFtp, pathFile);
             }
-}
+            }
 
+        }
+
+        
         public  void StartCdm(string pathApp)
         {
             //string pathApp = @"C:\Users\Dmytriy\Downloads\tdsskiller.exe";
